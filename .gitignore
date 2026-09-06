@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Editor
+*.swp
+.idea/
+.vscode/
+
+# Shell check / tooling
+.shellcheckrc
+
+# Backup
+*~
