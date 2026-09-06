@@ -3,7 +3,7 @@ name: worktree-runtime
 description: "Trigger: worktree, parallel development, dev server ports, port allocation, isolated dev environment, preview multiple branches in the browser. Set up and verify an isolated development runtime (services, ports, env, browser URLs) for a git worktree in any project, stack, or agent harness."
 license: MIT
 metadata:
-  author: el gentleman + miclinica
+  author: worktree-runtime contributors
   version: "1.0"
 ---
 
