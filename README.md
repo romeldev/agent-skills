@@ -1,54 +1,37 @@
-# worktree-runtime
+# agent-skills
 
-Stack-agnostic, harness-agnostic skill that sets up and **verifies** an
-isolated development runtime (services, ports, env, browser URLs) for a git
-worktree running in parallel with the main checkout.
+A curated collection of **stack-agnostic, harness-agnostic agent skills** for
+development workflows. Each skill is a self-contained folder with a `SKILL.md`
+runtime contract (plus `assets/` scripts and docs, and `references/` when
+needed), following the [Agent Skills](https://agentskills.io/specification)
+format.
 
-**Trigger words** (for auto-loading): `worktree`, `parallel development`,
-`dev server ports`, `port allocation`, `isolated dev environment`, `preview
-multiple branches in the browser`.
+## Skills
 
-## What it solves
+| Skill | What it does | Status |
+| --- | --- | --- |
+| [worktree-runtime](skills/worktree-runtime/) | Set up and **verify** an isolated dev runtime (services, ports, env, browser URLs) for a git worktree running in parallel with the main checkout. Stack-agnostic (Laravel, Next/React, Node, Go, …) and harness-agnostic (Pi, Claude Code, Cursor, Codex, OpenClaw, …). | ✅ v1.0.0 |
 
-`git worktree add` gives you an isolated checkout but **no runtime**: no env,
-no ports, no running services, nothing to open in the browser. Existing
-community skills handle branch isolation or multi-agent orchestration but
-hardcode one harness (Claude Code) and often one port scheme. This skill is
-the missing piece: discover the stack's config mechanism, allocate
-collision-free ports with evidence, keep state per-worktree, and refuse to
-call a worktree ready until the services actually respond.
+## Install
 
-## Layout
-
-```text
-worktree-runtime/
-├── SKILL.md                      # the LLM runtime contract (load this)
-├── assets/
-│   ├── port-audit.sh             # listen-port inventory / free-port check
-│   ├── health-check.sh           # HTTP verification loop (evidence)
-│   ├── stack-detectors.md        # recognize each stack's port mechanism
-│   ├── convention.md             # minimal port convention when none exists
-│   └── report-template.md        # Output Contract template
-└── references/
-    ├── multi-harness-install.md  # install table for Pi/Claude/Cursor/Codex…
-    └── rationale.md              # design rationale and honest limits
-```
-
-## Usage
+Copy or symlink each skill folder into your harness's skill location. See
+`skills/worktree-runtime/references/multi-harness-install.md` for the full
+per-harness table, and the "Developing from the source repository" section for
+the recommended symlink workflow.
 
 ```bash
-# Port evidence before allocating
-bash assets/port-audit.sh 3011 8011
-
-# Verify a worktree's stack is actually answering
-bash assets/health-check.sh frontend http://localhost:3011 api http://localhost:8011/health
+# Example: Pi global skills
+ln -sfn "$PWD/skills/worktree-runtime" ~/.pi/agent/skills/worktree-runtime
 ```
 
-For agent use: load `SKILL.md` and follow its Execution Steps. The scripts are
-advisory reference tooling — project automation (`make worktree-*`,
-`scripts/worktree*.sh`) always wins over this skill's generic flow.
+## Contributing
+
+- Each skill keeps its own files; the repo is the single source of truth.
+- Keep `SKILL.md` as a concise LLM runtime contract — see
+  `skills/worktree-runtime/references/rationale.md` for the design principles
+  (method, not values; evidence before success; delegate to project automation).
+- Update `CHANGELOG.md` when a skill changes user-visible behavior.
 
 ## License
 
-MIT. Designed to be shared; see `references/multi-harness-install.md` for
-install locations across harnesses and publishing notes.
+MIT — see [LICENSE](LICENSE).

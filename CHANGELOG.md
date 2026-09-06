@@ -6,7 +6,9 @@ All notable changes to this skill are documented here. The format follows
 
 ## [Unreleased]
 
-- Nothing yet.
+- Restructured into a monorepo (`agent-skills`): the skill now lives at
+  `skills/worktree-runtime/`, repo-level `LICENSE`, consolidated `CHANGELOG`,
+  and an index `README`. Histories preserved.
 
 ## [1.0.0] - 2026-09-05
 

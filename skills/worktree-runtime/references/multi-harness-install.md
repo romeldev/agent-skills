@@ -26,8 +26,8 @@ copy the folder into every harness: symlink the repo root into each skill
 location so edits in the repo deploy everywhere immediately.
 
 ```bash
-ln -sfn ~/projects/worktree-runtime ~/.pi/agent/skills/worktree-runtime
-ln -sfn ~/projects/worktree-runtime <repo>/.agents/skills/worktree-runtime
+ln -sfn ~/projects/skills/skills/worktree-runtime ~/.pi/agent/skills/worktree-runtime
+ln -sfn ~/projects/skills/skills/worktree-runtime <repo>/.agents/skills/worktree-runtime
 ```
 
 Keep the symlink name equal to the folder name (`worktree-runtime`) — discovery
