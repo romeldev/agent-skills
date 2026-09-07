@@ -31,6 +31,7 @@ Always inspect what exists first: an earlier setup or a project-specific worktre
 5. **One writer per worktree.** Do not run two parallel write flows inside the same checkout. Parallelism requires separate worktrees.
 6. **Convention before invention.** If the project has a port convention, obey it. If it has none, apply the minimal convention in `assets/convention.md` and record it in the project's `AGENTS.md`/`README` as part of your output.
 7. **Collision = evidence, not guesswork.** An occupied port is proof it is taken; choose the next free one. If no free port fits the convention, escalate to the human instead of breaking it.
+8. **Location default = sibling; policy wins.** When no policy file declares a worktree location, create the worktree as a **sibling** of the main checkout — in the same parent directory — named `<project>-<branch>` (e.g. `pakamuros-feat-auth` for the repo `pakamuros`). Never create worktrees inside the main checkout tree (no `.worktrees/`, no subfolder under the repo). A location declared in `AGENTS.md`/`CLAUDE.md`/`.cursorrules` always wins over this default.
 
 ## Decision Gates
 
@@ -40,6 +41,7 @@ Always inspect what exists first: an earlier setup or a project-specific worktre
 | Stack unknown | Detect via `assets/stack-detectors.md`, confirm by reading config files |
 | Port occupied | `port-audit.sh` shows it; allocate the next free port in convention |
 | No convention exists | Apply `assets/convention.md`, record it in the repo |
+| No worktree location declared in policy file | Create as sibling: `<project>-<branch>` in the same parent dir as the main checkout |
 | No free port fits convention | Stop; ask the human |
 | Multiple services | Map the graph (front → proxy/API → DB) and verify each link, not just each port |
 | Runtime without HTTP (Flutter device, desktop app) | Verify via that runtime's own mechanism; never fake a curl success |
@@ -48,7 +50,7 @@ Always inspect what exists first: an earlier setup or a project-specific worktre
 
 1. **Preflight.** Confirm the source checkout is clean enough to branch from; list existing worktrees (`git worktree list`) and their ports.
 2. **Discover policy + service graph.** Read `AGENTS.md`/`CLAUDE.md` (or the harness project instructions) for declared worktree conventions: existing automation, port tables, boot commands, network/URL constraints. Then identify every dev service, how it takes its port, and how it links to the others (proxy URL, API base, CORS origin).
-3. **Create the worktree.** `git worktree add <worktree-dir> -b feat/<name>` from the agreed base branch. Confirm it is a real checkout.
+3. **Create the worktree.** `git worktree add <worktree-dir> -b feat/<name>` from the agreed base branch. Unless a policy file declares another location, place the worktree as a **sibling** of the main checkout (same parent dir) named `<project>-<branch>`, e.g. `git worktree add ../pakamuros-feat-auth -b feat/auth`. Never create it inside the main checkout tree. Confirm it is a real checkout.
 4. **Allocate ports.** Audit with `assets/port-audit.sh`. Pick free ports following the project convention or `assets/convention.md`. Same worktree suffix across all its services.
 5. **Isolate state.** Generate the worktree's local env from the main checkout via the project mechanism; set the allocated ports; never share `.env` files across worktrees.
 6. **Boot services.** Start each service in the worktree on its allocated port (install deps first in that checkout).

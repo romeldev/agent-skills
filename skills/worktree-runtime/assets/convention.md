@@ -50,8 +50,12 @@ Write the chosen mapping into the project's policy file
 | Worktree | Branch | Frontend | API |
 | --- | --- | --- | --- |
 | main | main | 3009 | 8009 |
-| .worktrees/feature-a | feat/a | 3011 | 8011 |
+| pakamuros-feat-a | feat/a | 3011 | 8011 |
 ```
+
+Worktree checkouts follow the location default in `SKILL.md` (Hard Rule 8):
+siblings of the main checkout, named `<project>-<branch>` — never a
+`.worktrees/` folder inside the repo unless the policy file declares it.
 
 ## What the convention deliberately does NOT cover
 

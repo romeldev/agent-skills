@@ -13,9 +13,9 @@ without evidence is a promise, not a result.
 | --- | --- | --- | --- | --- | --- |
 | `main` | `main` | frontend | http://localhost:3009 | yes | HTTP 200 |
 | `main` | `main` | api | http://localhost:8009/health | yes | HTTP 200 |
-| `.worktrees/feature-a` | `feat/a` | frontend | http://localhost:3011 | yes | HTTP 200 |
-| `.worktrees/feature-a` | `feat/a` | api | http://localhost:8011/health | yes | HTTP 200 |
-| `.worktrees/feature-a` | `feat/a` | front→api link | http://localhost:3011 → API | yes | proxy URL remapped |
+| `pakamuros-feat-a` | `feat/a` | frontend | http://localhost:3011 | yes | HTTP 200 |
+| `pakamuros-feat-a` | `feat/a` | api | http://localhost:8011/health | yes | HTTP 200 |
+| `pakamuros-feat-a` | `feat/a` | front→api link | http://localhost:3011 → API | yes | proxy URL remapped |
 
 ### Port audit (evidence)
 
@@ -34,14 +34,14 @@ FREE      :8011
 
 ```bash
 # bootstrap
-cd .worktrees/feature-a
+cd ../pakamuros-feat-a
 make worktree-env      # or the project's env tooling
 <install deps>         # per lockfile
 make run-frontend &    # per project
 make run-backend &     # per project
 
 # teardown (only when the user asks)
-git -C .worktrees/feature-a worktree remove .worktrees/feature-a
+git -C ../pakamuros-feat-a worktree remove ../pakamuros-feat-a
 ```
 
 ### Residual risks
